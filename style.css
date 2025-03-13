@@ -1,0 +1,658 @@
+/* Reset Geral */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #333232;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Cabeçalho e Contatos */
+#top-header {
+    background-color: #626161;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 90%;
+    margin: auto;
+}
+
+#top-header img {
+    width: 50px;
+    height: auto;
+    margin: 0 10px;
+    transition: 0.3s;
+    border-radius: 15px;
+}
+
+#top-header img:hover {
+    transform: scale(1.2);
+}
+
+.logo {
+    font-family: 'Poppins', sans-serif; 
+    font-size: 36px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ffffff, #b0b0b0, #4B0000); 
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+
+}
+/* Navegação */
+
+nav {
+    background-color: #626161;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    background: #626161;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    background: #341e1e;
+}
+
+nav ul li a.ativo {
+    background: #311111;
+    font-weight: bold;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Botões */
+
+.botao {
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 30px;
+    transition: 0.3s ease-in-out;
+    backdrop-filter: blur(5px);
+    width: 200px;
+    text-align: center;
+}
+
+.botao:hover {
+    background: rgba(200, 200, 200, 0.5);
+    border-color: #ccc;
+}
+
+/* Containers Gerais */
+
+.comentarios-container, .avaliacoes-container, .localizacao-container, .tabela-precos-container, .horarios-container {
+    width: 80%;
+    margin: auto;
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
+}
+
+.localizacao-container{
+    background-image: url('img/local.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 50px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+.localizacao-container .botao{
+    background-color: rgba(255, 255, 255, 0.8); 
+    color: #333; 
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #440606; 
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out, color 0.3s;
+    display: inline-block; 
+    text-align: center;
+}
+
+.localizacao-container .botao:hover {
+    background-color: #341e1e; 
+    color: white; 
+    border-color: white; 
+}
+
+.localizacao-container h2,
+.localizacao-container p {
+    color: #333; 
+    font-size: 22px; 
+    margin-bottom: 20px; 
+    text-align: center; 
+    text-shadow: 1px 1px 2px white;
+}
+
+.horarios-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 25px;
+    color: wihte;
+    text-shadow: 
+        -2px -2px 3px rgba(0, 0, 0, 0.6),  
+         2px -2px 3px rgba(0, 0, 0, 0.6),
+        -2px  2px 3px rgba(0, 0, 0, 0.6),
+         2px  2px 3px rgba(0, 0, 0, 0.6);
+    background-image: url('img/horario.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+.tabela-precos-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 25px;
+    color: wihte;
+    text-shadow: 
+        -2px -2px 3px rgba(0, 0, 0, 0.6),  
+         2px -2px 3px rgba(0, 0, 0, 0.6),
+        -2px  2px 3px rgba(0, 0, 0, 0.6),
+         2px  2px 3px rgba(0, 0, 0, 0.6);
+    background-image: url('img/precos.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Estilos gerais */
+.comentarios-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comentarios-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Formulário de comentário principal */
+#form-comentario {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#form-comentario textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px 60px 10px 10px; /* Espaço para o botão */
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    resize: vertical;
+}
+
+#form-comentario textarea:focus {
+    border-color: #007bff;
+}
+
+.botao-comentario {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.botao-comentario:hover {
+    background-color: #0056b3;
+}
+
+.botao-comentario img {
+    width: 24px;
+    height: auto;
+}
+
+/* Lista de comentários */
+#lista-comentarios {
+    margin-top: 20px;
+}
+
+.comentario {
+    position: relative; /* Para posicionar o botão de excluir */
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #007bff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comentario-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.comentario-cabecalho .usuario {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.comentario-cabecalho .data {
+    font-size: 14px;
+    color: #666;
+}
+
+.comentario-cabecalho .editado {
+    font-size: 14px;
+    color: #888;
+    font-style: italic;
+}
+
+.comentario-texto {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.comentario-acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.comentario-acoes button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.comentario-acoes button:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* ===== BOTÃO DE EXCLUIR ===== */
+.btn-excluir {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d; /* Vermelho */
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; /* Bolinha */
+    color: #fff; /* Cor do "X" */
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-excluir:hover {
+    background-color: #cc0000; /* Vermelho mais escuro ao passar o mouse */
+}
+
+/* Garantir que o botão de excluir não seja afetado por outros estilos */
+.comentario-acoes .btn-excluir {
+    background-color: #ff4d4d !important; /* Força o fundo vermelho */
+    color: #fff !important; /* Força o "X" branco */
+    border-radius: 50% !important; /* Força o formato redondo */
+}
+
+.comentario-acoes .btn-excluir:hover {
+    background-color: #cc0000 !important; /* Força o vermelho escuro no hover */
+}
+
+/* Respostas */
+.respostas {
+    margin-left: 30px;
+    margin-top: 10px;
+    border-left: 2px solid #ddd;
+    padding-left: 15px;
+}
+
+.respostas .comentario {
+    background-color: #f9f9f9;
+    border-left-color: #ddd;
+    box-shadow: none;
+}
+
+/* Formulários de resposta e edição */
+.form-resposta,
+.form-editar {
+    margin-top: 10px;
+}
+
+.form-resposta textarea,
+.form-editar textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+.form-resposta textarea:focus,
+.form-editar textarea:focus {
+    border-color: #007bff;
+}
+
+.form-resposta button,
+.form-editar button {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-resposta button:hover,
+.form-editar button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+.botoes-centro {
+    position: absolute; 
+    top: 300px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    justify-content: center;
+    padding: 0 15%;
+}
+
+.botoes-centro a:hover {
+    background: #341e1e;
+}
+
+.botao-voltar {
+    display: inline-block;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 30px;
+    transition: 0.3s ease-in-out;
+    backdrop-filter: blur(5px);
+    width: 100px;
+    text-align: center;
+}
+
+.botao-voltar:hover {
+    background: #341e1e; 
+    border-color: white;
+}
+
+/* Rodapé */
+
+footer {
+    background-color: #626161;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Hero Section */
+
+#hero {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.lado-esquerdo, .lado-direito {
+    flex: 1;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.lado-esquerdo {
+    background-image: url('img/barbershoplefth.jpg');
+}
+
+.lado-direito {
+    background-image: url('img/barbershophigth.jpg');
+}
+
+/* Contatos */
+
+.contatos {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.contatos a, .contatos span {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contatos img {
+    width: 40px;
+    height: auto;
+}
+/* Estilo para o link do telefone */
+
+.contatos a[href^="tel:"] {
+    color: #FFA500; 
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.contatos a[href^="tel:"]:hover {
+    color: #FF8C00; 
+}
+
+/* Estilização da página de Avaliações */
+
+.avaliacoes-container {
+    background-image: url('img/av.jpg'); 
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; 
+    width: 80%; 
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    text-shadow: 2px 2px 3px black;
+    background-color: rgba(0, 0, 0, 0.5); /* Adiciona um fundo escuro semi-transparente */
+    background-blend-mode: multiply; /* Mistura a cor com a imagem */
+}
+.avaliacoes-container label {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px; 
+    margin-bottom: 5px; 
+}
+
+/* Estilização das opções de avaliação */
+
+.opcoes {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px; 
+    font-size: 20px; 
+    margin-bottom: 20px; 
+}
+
+.opcoes label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;    
+}
+
+.opcoes input[type="radio"] {
+    width: 40px; 
+    height: 25px;
+    accent-color: green; 
+}
+
+/* Estilização do botão de enviar */
+
+#botaoEnviar {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid green;
+    border-radius: 30px;
+    text-align: center;
+    background: rgba(200, 200, 200, 0.5);
+    color: #ccc;
+    cursor: not-allowed;
+    transition: 0.3s;
+}
+
+#botaoEnviar:enabled {
+    background: green;
+    color: white;
+    cursor: pointer;
+}
+
+#botaoEnviar:enabled:hover {
+    background: darkgreen;
+}
+
+
+/* Responsividade para telas menores */
+
+@media screen and (max-width: 768px) {
+    #top-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .header-container {
+        flex-direction: column;
+    }
+
+    .logo {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    /* Ajuste dos botões centrais */
+    .botoes-centro {
+        flex-direction: column; 
+        gap: 20px; 
+        top: 350px; 
+        padding: 0;
+    }
+
+    .botao {
+        width: 100%; 
+        padding: 15px 20px;
+        font-size: 18px;
+    }
+
+    /* Ajuste dos botões de menu */
+
+    nav ul {
+        flex-direction: column;
+        gap: 25px; 
+        align-items: center;
+    }
+
+    nav ul li {
+        width: 80%;
+    }
+
+    .contatos {
+        justify-content: center;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .contatos img {
+        width: 35px;
+    }
+
+    .avaliacoes-container {
+        background-position: top center; /* Ajusta a posição para melhor visualização */
+    }
+
+    .avaliacoes-container label,
+    .opcoes label {
+        font-size: 16px;
+    }
+}
