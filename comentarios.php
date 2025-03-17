@@ -1,68 +1,78 @@
 <?php
-session_start(); // Inicia a sessão
+session_start();
+include 'backend/db_connect.php'; // Conexão com o banco de dados
 
-// Inicializa a variável de sessão para armazenar comentários
-if (!isset($_SESSION['comentarios'])) {
-    $_SESSION['comentarios'] = [];
-}
+// 🔹 Buscar todos os comentários do banco de dados
+$sql = "SELECT * FROM comentarios ORDER BY data_criacao DESC";
+$result = $conn->query($sql);
+$comentarios = [];
 
-// Função para adicionar um comentário
-function adicionarComentario($usuario, $comentario, $parent_id = null) {
-    $novoComentario = [
-        'id' => uniqid(), // Gera um ID único
-        'usuario' => $usuario,
-        'comentario' => $comentario,
-        'data' => date('d/m/Y H:i'), // Data formatada para exibição
-        'timestamp' => time(), // Timestamp para ordenação
+while ($row = $result->fetch_assoc()) {
+    $comentarios[] = [
+        'id' => $row['id'],
+        'usuario' => $row['nome'] ?? 'Anônimo',
+        'comentario' => $row['texto'],
+        'data' => date('d/m/Y H:i', strtotime($row['data_criacao'])),
+        'timestamp' => strtotime($row['data_criacao']),
         'editado' => false,
-        'parent_id' => $parent_id, // ID do comentário pai (para respostas)
+        'parent_id' => null
     ];
-    $_SESSION['comentarios'][] = $novoComentario;
 }
 
-// Função para editar um comentário
-function editarComentario($id, $novoComentario) {
-    foreach ($_SESSION['comentarios'] as &$comentario) {
-        if ($comentario['id'] === $id) {
-            $comentario['comentario'] = $novoComentario;
-            $comentario['editado'] = true;
-            break;
+// 🔹 Buscar respostas e associá-las aos comentários principais
+$sql_respostas = "SELECT * FROM respostas ORDER BY data_criacao ASC";
+$result_respostas = $conn->query($sql_respostas);
+$respostas = [];
+
+while ($row = $result_respostas->fetch_assoc()) {
+    $respostas[] = [
+        'id' => $row['id'],
+        'usuario' => $row['nome'] ?? 'Anônimo',
+        'comentario' => $row['resposta'],
+        'data' => date('d/m/Y H:i', strtotime($row['data_criacao'])),
+        'timestamp' => strtotime($row['data_criacao']),
+        'editado' => false,
+        'parent_id' => $row['comentario_id']
+    ];
+}
+
+// 🔹 Unindo os comentários e respostas no mesmo array
+$comentarios = array_merge($comentarios, $respostas);
+
+// 🔹 Ordenar por data (do mais recente para o mais antigo)
+usort($comentarios, function ($a, $b) {
+    return $b['timestamp'] - $a['timestamp'];
+});
+
+// 🔹 Função para exibir comentários e respostas
+function exibirComentarios($comentarios, $parent_id = null) {
+    foreach ($comentarios as $comentario) {
+        if ($comentario['parent_id'] === $parent_id) {
+            echo '
+            <div class="comentario" data-comentario-id="' . $comentario['id'] . '">
+                <div class="comentario-cabecalho">
+                    <span class="usuario">' . htmlspecialchars($comentario['usuario']) . '</span>
+                    <span class="data">' . htmlspecialchars($comentario['data']) . '</span>
+                    ' . ($comentario['editado'] ? '<span class="editado">(Editado)</span>' : '') . '
+                </div>
+                <div class="comentario-texto">' . htmlspecialchars($comentario['comentario']) . '</div>
+                <div class="comentario-acoes">
+                    <form method="POST" action="backend/processa_comentarios.php" style="display: inline;">
+                        <input type="hidden" name="deletar_id" value="' . $comentario['id'] . '">
+                        <button class="btn-excluir" type="submit">X</button>
+                    </form>
+                    <form method="POST" action="backend/processa_comentarios.php" style="display: inline;">
+                        <input type="hidden" name="comentario_id" value="' . $comentario['id'] . '">
+                        <input type="text" name="nome" placeholder="Seu nome" required>
+                        <textarea name="resposta" rows="3" placeholder="Digite sua resposta..." required style="resize: vertical; width: 100%;"></textarea>
+                        <button class="btn-responder" type="submit">Responder</button>
+                    </form>
+                </div>
+                <div class="respostas">';
+            exibirComentarios($comentarios, $comentario['id']);
+            echo '</div></div>';
         }
     }
-}
-
-// Função para excluir um comentário
-function excluirComentario($id) {
-    $_SESSION['comentarios'] = array_filter($_SESSION['comentarios'], function($comentario) use ($id) {
-        return $comentario['id'] !== $id;
-    });
-}
-
-// Processar ações do formulário
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['action'])) {
-        $action = $_POST['action'];
-        switch ($action) {
-            case 'adicionar':
-                if (!empty($_POST['comentario'])) {
-                    adicionarComentario('Usuário Teste', $_POST['comentario'], $_POST['parent_id'] ?? null);
-                }
-                break;
-            case 'editar':
-                if (!empty($_POST['id']) && !empty($_POST['comentario'])) {
-                    editarComentario($_POST['id'], $_POST['comentario']);
-                }
-                break;
-            case 'excluir':
-                if (!empty($_POST['id'])) {
-                    excluirComentario($_POST['id']);
-                }
-                break;
-        }
-    }
-    // Redireciona para evitar reenvio do formulário ao recarregar
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit;
 }
 
 include 'header.php';
@@ -70,11 +80,14 @@ include 'header.php';
 
 <section class="comentarios-container">
     <h2>Comentários & Perguntas</h2>
+    <h3>Este é um espaço para comentários sobre a barbearia e dúvidas relacionadas a qualquer assunto do visual masculino. 
+        Pedimos a todos que sejam respeitosos e evitem comentários ofensivos.
+    </h3>
     
     <!-- Formulário para adicionar comentário principal -->
-    <form id="form-comentario" method="POST">
-        <input type="hidden" name="action" value="adicionar">
-        <textarea name="comentario" required placeholder="Adicione um comentário..."></textarea>
+    <form id="form-comentario" method="POST" action="backend/processa_comentarios.php">
+        <input type="text" name="nome" placeholder="Seu nome" required>
+        <textarea name="comentario" rows="4" required placeholder="Adicione um comentário..." style="resize: vertical; width: 100%;"></textarea>
         <button type="submit" class="botao-comentario">
             <img src="img/iconenviar.gif" alt="Enviar">
         </button>
@@ -82,105 +95,23 @@ include 'header.php';
     
     <!-- Lista de Comentários -->
     <div id="lista-comentarios">
-        <?php
-        // Função para ordenar comentários por timestamp (do mais recente para o mais antigo)
-        function ordenarComentariosPorData($comentarios) {
-            usort($comentarios, function($a, $b) {
-                return $b['timestamp'] - $a['timestamp']; // Ordena do mais recente para o mais antigo
-            });
-            return $comentarios;
-        }
-
-        // Função para exibir comentários e respostas
-        function exibirComentarios($comentarios, $parent_id = null) {
-            foreach ($comentarios as $comentario) {
-                if ($comentario['parent_id'] === $parent_id) {
-                    echo '
-                    <div class="comentario">
-                        <div class="comentario-cabecalho">
-                            <span class="usuario">' . htmlspecialchars($comentario['usuario']) . '</span>
-                            <span class="data">' . htmlspecialchars($comentario['data']) . '</span>
-                            ' . ($comentario['editado'] ? '<span class="editado">(Editado)</span>' : '') . '
-                        </div>
-                        <div class="comentario-texto">
-                            ' . htmlspecialchars($comentario['comentario']) . '
-                        </div>
-                        <div class="comentario-acoes">
-                            <button class="btn-responder" data-comentario-id="' . $comentario['id'] . '">Responder</button>
-                            <button class="btn-editar" data-comentario-id="' . $comentario['id'] . '">Editar</button>
-                            <button class="btn-excluir" data-comentario-id="' . $comentario['id'] . '">X</button>
-                        </div>';
-
-                    // Exibir respostas
-                    echo '<div class="respostas">';
-                    exibirComentarios($comentarios, $comentario['id']);
-                    echo '</div>';
-
-                    echo '</div>';
-                }
-            }
-        }
-
-        // Ordenar comentários por data (do mais recente para o mais antigo)
-        $comentariosOrdenados = ordenarComentariosPorData($_SESSION['comentarios']);
-
-        // Exibir todos os comentários ordenados
-        exibirComentarios($comentariosOrdenados);
-        ?>
+        <?php exibirComentarios($comentarios); ?>
     </div>
 </section>
 
 <script>
-// Função para mostrar/ocultar formulário de resposta
-document.querySelectorAll('.btn-responder').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const comentarioId = btn.dataset.comentarioId;
-        const formResposta = `
-            <form class="form-resposta" method="POST">
-                <input type="hidden" name="action" value="adicionar">
-                <input type="hidden" name="parent_id" value="${comentarioId}">
-                <textarea name="comentario" placeholder="Digite sua resposta..."></textarea>
-                <button type="submit">Enviar</button>
-            </form>
-        `;
-        btn.closest('.comentario').insertAdjacentHTML('beforeend', formResposta);
+    // Salva a posição da rolagem antes de recarregar a página
+    window.addEventListener("beforeunload", function () {
+        localStorage.setItem("scrollPosition", window.scrollY);
     });
-});
 
-// Função para mostrar/ocultar formulário de edição
-document.querySelectorAll('.btn-editar').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const comentarioId = btn.dataset.comentarioId;
-        const comentarioTexto = btn.closest('.comentario').querySelector('.comentario-texto').innerText;
-        const formEditar = `
-            <form class="form-editar" method="POST">
-                <input type="hidden" name="action" value="editar">
-                <input type="hidden" name="id" value="${comentarioId}">
-                <textarea name="comentario">${comentarioTexto}</textarea>
-                <button type="submit">Salvar</button>
-            </form>
-        `;
-        btn.closest('.comentario').querySelector('.comentario-texto').innerHTML = formEditar;
-    });
-});
-
-// Função para excluir comentário
-document.querySelectorAll('.btn-excluir').forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (confirm('Tem certeza que deseja excluir este comentário?')) {
-            const comentarioId = btn.dataset.comentarioId;
-            const formExcluir = `
-                <form method="POST" style="display: none;">
-                    <input type="hidden" name="action" value="excluir">
-                    <input type="hidden" name="id" value="${comentarioId}">
-                    <button type="submit"></button>
-                </form>
-            `;
-            document.body.insertAdjacentHTML('beforeend', formExcluir);
-            document.forms[document.forms.length - 1].submit();
+    // Restaura a posição da rolagem ao carregar a página
+    window.addEventListener("load", function () {
+        const scrollPosition = localStorage.getItem("scrollPosition");
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition, 10));
         }
     });
-});
 </script>
 
 <?php include 'footer.php'; ?>

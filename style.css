@@ -210,6 +210,11 @@ nav ul li a.ativo {
     margin-bottom: 20px;
     text-align: center;
 }
+.comentarios-container h3 {
+    color: #000; /* Define o texto como preto */
+    text-align: justify;
+}
+
 
 /* Formulário de comentário principal */
 #form-comentario {
