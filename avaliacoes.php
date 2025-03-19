@@ -2,7 +2,7 @@
 
 <section class="avaliacoes-container">
     <h2>Deixe sua Avaliação</h2>
-    <form action="backend/processa_avaliacoes.php" method="POST" id="formAvaliacao">
+    <form action="processa_avaliacoes.php" method="POST" id="formAvaliacao">
         <label>1. Há quanto tempo é cliente da barbearia?</label>
         <div class="opcoes">
             <label><input type="radio" name="tempo_cliente" value="Menos de 1 ano" required> Menos de 1 ano</label>

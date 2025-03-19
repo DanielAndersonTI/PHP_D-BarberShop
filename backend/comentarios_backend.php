@@ -1,5 +1,5 @@
 <?php
-include 'db_connect.php';
+include 'config.php';
 
 // Adicionar um novo comentário
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['comentario'])) {

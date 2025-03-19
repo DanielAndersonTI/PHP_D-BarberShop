@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'backend/db_connect.php'; // Conexão com o banco de dados
+include 'config.php'; // Conexão com o banco de dados
 
 // 🔹 Buscar todos os comentários do banco de dados
 $sql = "SELECT * FROM comentarios ORDER BY data_criacao DESC";
@@ -57,11 +57,11 @@ function exibirComentarios($comentarios, $parent_id = null) {
                 </div>
                 <div class="comentario-texto">' . htmlspecialchars($comentario['comentario']) . '</div>
                 <div class="comentario-acoes">
-                    <form method="POST" action="backend/processa_comentarios.php" style="display: inline;">
+                    <form method="POST" action="processa_comentarios.php" style="display: inline;">
                         <input type="hidden" name="deletar_id" value="' . $comentario['id'] . '">
                         <button class="btn-excluir" type="submit">X</button>
                     </form>
-                    <form method="POST" action="backend/processa_comentarios.php" style="display: inline;">
+                    <form method="POST" action="processa_comentarios.php" style="display: inline;">
                         <input type="hidden" name="comentario_id" value="' . $comentario['id'] . '">
                         <input type="text" name="nome" placeholder="Seu nome" required>
                         <textarea name="resposta" rows="3" placeholder="Digite sua resposta..." required style="resize: vertical; width: 100%;"></textarea>
@@ -85,7 +85,7 @@ include 'header.php';
     </h3>
     
     <!-- Formulário para adicionar comentário principal -->
-    <form id="form-comentario" method="POST" action="backend/processa_comentarios.php">
+    <form id="form-comentario" method="POST" action="processa_comentarios.php">
         <input type="text" name="nome" placeholder="Seu nome" required>
         <textarea name="comentario" rows="4" required placeholder="Adicione um comentário..." style="resize: vertical; width: 100%;"></textarea>
         <button type="submit" class="botao-comentario">

@@ -1,6 +1,6 @@
 <?php
 
-$conn = include __DIR__ . '/db_connect.php';
+include 'config.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tempo_cliente = $_POST['tempo_cliente'] ?? null;
@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES ('$tempo_cliente', '$idade_atendido', '$servico', '$motivo')";
 
         if ($conn->query($sql) === TRUE) {
-            echo "<script>alert('Avaliação enviada com sucesso!'); window.location.href='../avaliacoes.php';</script>";
+            echo "<script>alert('Avaliação enviada com sucesso!'); window.location.href='avaliacoes.php';</script>";
 
         } else {
             echo "Erro ao enviar avaliação: " . $conn->error;

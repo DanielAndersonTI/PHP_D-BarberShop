@@ -420,7 +420,7 @@ nav ul li a.ativo {
 
 
 
-.botoes-centro {
+.botoes-centro  {
     position: absolute; 
     top: 300px; 
     left: 50%;
@@ -430,7 +430,13 @@ nav ul li a.ativo {
     flex-direction: row;
     gap: 50px;
     justify-content: center;
-    padding: 0 15%;
+    padding: 0 15%;   
+}
+.botoes-centro a {
+    color: rgb(214, 210, 210) !important; /* Cor do texto */
+    text-shadow: 3px 3px 5px rgb(9, 9, 9); /* Borda preta no texto */
+    font-size: larger; /* Tamanho da fonte */
+    text-decoration: none; /* Remove sublinhado */
 }
 
 .botoes-centro a:hover {

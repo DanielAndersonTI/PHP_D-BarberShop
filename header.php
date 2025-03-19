@@ -13,7 +13,7 @@
             </a>
 
             <span>Instagram:</span>
-            <a href="https://instagram.com/seu_instagram" target="_blank">
+            <a href="https://instagram.com/daniel_andersonss" target="_blank">
                 <img src="img/insta.jpg" alt="Instagram">
             </a>
 
